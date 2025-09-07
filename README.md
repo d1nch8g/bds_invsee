@@ -42,12 +42,20 @@ A Minecraft Bedrock Dedicated Server addon that enables secure inventory and equ
 1. **Download/Clone** this repository
 2. **Package the addon:**
    ```bash
-   # Create behavior pack
-   zip -r bds_invsee_bp.mcpack manifest.json scripts/
+   # Create behavior pack (already done in repo)
+   zip -r bds_invsee_bp.mcpack manifest.json scripts/ pack_icon.png
    ```
 3. **Install on Bedrock Dedicated Server:**
-   - Copy the addon folder to `behavior_packs/` directory
-   - Add to `worlds/[world]/world_behavior_packs.json`:
+
+   ```bash
+   # Copy and extract to behavior packs directory
+   cp bds_invsee_bp.mcpack /path/to/bedrock-server/behavior_packs/
+   cd /path/to/bedrock-server/behavior_packs/
+   unzip bds_invsee_bp.mcpack -d bds_invsee_bp/
+   ```
+
+4. **Configure world** - Edit `worlds/[world]/world_behavior_packs.json`:
+
    ```json
    [
      {
@@ -56,12 +64,37 @@ A Minecraft Bedrock Dedicated Server addon that enables secure inventory and equ
      }
    ]
    ```
-4. **Enable Script API** in `server.properties`:
-   ```
+
+5. **Enable Script API** in `server.properties`:
+
+   ```properties
    allow-list=true
    server-authoritative-movement=server-auth
+   server-authoritative-block-breaking=false
    ```
-5. **Restart server**
+
+6. **Restart server**
+
+## Testing
+
+1. **Join server** - Look for: `[BDS InvSee] Addon loaded - Use !upload or !download commands`
+
+2. **Test upload:**
+
+   - Fill inventory with items (try shulker boxes!)
+   - Type `!upload`
+   - Check console for `[INVENTORY_EXPORT]` message
+   - Confirm inventory cleared
+
+3. **Test download request:**
+
+   - Type `!download`
+   - Check console for `[INVENTORY_REQUEST]` message
+
+4. **Test restoration** (via server console):
+   ```bash
+   say [INVENTORY_RESTORE]{"player_xuid":"<xuid>","inventory":[{"slot":0,"type":"minecraft:diamond","amount":64,"enchantments":[],"container_contents":[]}],"equipment":{}}
+   ```
 
 ### Development Setup
 
