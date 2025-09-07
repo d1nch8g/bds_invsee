@@ -54,7 +54,7 @@ A Minecraft Bedrock Dedicated Server addon that enables secure inventory and equ
    unzip bds_invsee_bp.mcpack -d bds_invsee_bp/
    ```
 
-4. **Configure world** - Edit `worlds/[world]/world_behavior_packs.json`:
+4. **Configure world** - Create/edit `worlds/[world_name]/world_behavior_packs.json`:
 
    ```json
    [
@@ -65,13 +65,15 @@ A Minecraft Bedrock Dedicated Server addon that enables secure inventory and equ
    ]
    ```
 
-5. **Enable Script API** in `server.properties`:
+5. **Optional server.properties tweaks:**
 
    ```properties
-   allow-list=true
-   server-authoritative-movement=server-auth
-   server-authoritative-block-breaking=false
+   # Optional: Disable script watchdog to prevent timeouts
+   script-watchdog-enable=false
+   script-watchdog-enable-exception-handling=false
    ```
+
+   **Note:** Script API works automatically when behavior pack loads. These settings are optional.
 
 6. **Restart server**
 
