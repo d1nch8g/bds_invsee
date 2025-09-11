@@ -1,0 +1,30 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Custom Ender Chest And Inventory Logging",
+    "description": "Replaces ender chest with a programmable one and logs user actions",
+    "uuid": "5f0288c6-63df-4cf7-b95e-cccba472ca01",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 20, 10]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "1cb0a2aa-7de4-4e58-9b93-4c1d2ee9f183",
+      "version": [1, 0, 0]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "a6b20a65-42c3-4e44-a47b-3ac9ee3ef600",
+      "version": [1, 0, 0],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.1.0"
+    }
+  ]
+}
