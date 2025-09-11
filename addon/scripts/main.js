@@ -1,81 +1,288 @@
 import { world, system, ItemStack } from "@minecraft/server";
 
-class InventoryManager {
+class EnderChestManager {
   constructor() {
+    console.warn("[BDS InvSee] Starting Ender Chest Manager v1.0");
     this.initializeEventHandlers();
   }
 
   initializeEventHandlers() {
-    console.warn("[BDS InvSee] Setting up chat command handlers...");
+    console.warn("[BDS InvSee] Setting up event handlers...");
     
-    // Use chat commands since custom commands aren't available in this version
-    if (world.beforeEvents && world.beforeEvents.chatSend) {
-      console.warn("[BDS InvSee] Using chat commands (!upload, !download)");
-      world.beforeEvents.chatSend.subscribe((eventData) => {
-        const message = eventData.message.trim();
-        if (message === "!upload") {
-          eventData.cancel = true;
-          this.uploadInventory(eventData.sender);
-        } else if (message === "!download") {
-          eventData.cancel = true;
-          this.requestInventoryDownload(eventData.sender);
-        }
-      });
-    } else {
-      console.warn("[BDS InvSee] Chat events not available - check server configuration");
-    }
-
-    // Listen for restore messages from server
-    world.afterEvents.chatSend.subscribe((eventData) => {
-      const message = eventData.message.trim();
-      if (message.startsWith("[INVENTORY_RESTORE]")) {
-        try {
-          const jsonStr = message.substring("[INVENTORY_RESTORE]".length);
-          const inventoryData = JSON.parse(jsonStr);
-          this.restorePlayerInventory(inventoryData);
-        } catch (error) {
-          console.warn("[BDS InvSee] Failed to parse restore data:", error);
-        }
+    try {
+      // Track player interactions with ender chests
+      if (world.afterEvents && world.afterEvents.playerInteractWithBlock) {
+        world.afterEvents.playerInteractWithBlock.subscribe((eventData) => {
+          const block = eventData.block;
+          const player = eventData.player;
+          
+          // Check if player interacted with our custom ender chest or vanilla ender chest
+          if (block.typeId === "bds_invsee:ender_chest" || block.typeId === "minecraft:ender_chest") {
+            this.handleEnderChestInteraction(player, block, eventData);
+          }
+        });
+        console.warn("[BDS InvSee] ✓ Block interaction tracking enabled");
+      } else {
+        console.warn("[BDS InvSee] ✗ Block interaction tracking not available");
       }
-    });
+
+      // Track block interactions for inventory flow  
+      if (world.afterEvents && world.afterEvents.playerPlaceBlock) {
+        world.afterEvents.playerPlaceBlock.subscribe((eventData) => {
+          this.logBlockPlace(eventData);
+        });
+        console.warn("[BDS InvSee] ✓ Block place tracking enabled");
+      }
+      
+      if (world.afterEvents && world.afterEvents.playerBreakBlock) {
+        world.afterEvents.playerBreakBlock.subscribe((eventData) => {
+          this.logBlockBreak(eventData);
+        });
+        console.warn("[BDS InvSee] ✓ Block break tracking enabled");
+      }
+
+      // Track when players join/leave for logging
+      if (world.afterEvents && world.afterEvents.playerJoin) {
+        world.afterEvents.playerJoin.subscribe((eventData) => {
+          console.warn(`[BDS InvSee] Player joined: ${eventData.playerName}`);
+        });
+        console.warn("[BDS InvSee] ✓ Player join tracking enabled");
+      }
+
+      if (world.afterEvents && world.afterEvents.playerLeave) {
+        world.afterEvents.playerLeave.subscribe((eventData) => {
+          console.warn(`[BDS InvSee] Player left: ${eventData.playerName}`);
+        });
+        console.warn("[BDS InvSee] ✓ Player leave tracking enabled");
+      }
+
+      // Use a simpler approach for chat - just basic commands
+      system.runInterval(() => {
+        this.checkForCommands();
+      }, 20);
+
+      console.warn("[BDS InvSee] Event handlers initialized successfully");
+    } catch (error) {
+      console.warn(`[BDS InvSee] Error setting up event handlers: ${error}`);
+    }
   }
 
-  uploadInventory(player) {
+  checkForCommands() {
+    // This will be called periodically to check for any pending operations
+    // For now, just ensure the system is running
+  }
+
+  handleEnderChestInteraction(player, block, eventData) {
+    const playerData = {
+      name: player.name,
+      xuid: this.getPlayerXUID(player),
+      location: {
+        x: Math.floor(block.location.x),
+        y: Math.floor(block.location.y), 
+        z: Math.floor(block.location.z)
+      },
+      dimension: block.dimension.id,
+      timestamp: Date.now()
+    };
+
+    console.warn(`[ENDER_CHEST_INTERACT] ${JSON.stringify(playerData)}`);
+    
+    // Export current inventory when opening ender chest
+    system.runTimeout(() => {
+      this.exportPlayerEnderChest(player);
+    }, 2); // Small delay to ensure chest is opened
+  }
+
+  exportPlayerEnderChest(player) {
     try {
       const inventoryData = this.exportPlayerInventory(player);
-      
-      // Clear player's inventory and equipment
-      this.clearInventory(player);
-      
-      // Send inventory data via chat for external capture
-      world.sendMessage(`[INVENTORY_EXPORT]${JSON.stringify(inventoryData)}`);
-      
-      player.sendMessage("§a✓ Inventory uploaded and cleared!");
+      console.warn(`[ENDER_CHEST_EXPORT] ${JSON.stringify(inventoryData)}`);
     } catch (error) {
-      player.sendMessage("§c✗ Failed to upload inventory");
-      console.error("Upload inventory error:", error);
+      console.warn(`[BDS InvSee] Error exporting ender chest: ${error}`);
     }
   }
 
-  requestInventoryDownload(player) {
+  logBlockPlace(eventData) {
     try {
-      const requestData = {
-        player_xuid: this.getPlayerXUID(player),
-        player_name: player.name,
+      const placeData = {
+        player: eventData.player.name,
+        player_xuid: this.getPlayerXUID(eventData.player),
+        block_type: eventData.block.typeId,
+        location: {
+          x: eventData.block.location.x,
+          y: eventData.block.location.y,
+          z: eventData.block.location.z
+        },
+        dimension: eventData.dimension.id,
         timestamp: Date.now()
       };
 
-      // Send download request via chat for external capture
-      world.sendMessage(`[INVENTORY_REQUEST]${JSON.stringify(requestData)}`);
-      
-      player.sendMessage("§e⏳ Download request sent to external system...");
+      console.warn(`[BLOCK_PLACED] ${JSON.stringify(placeData)}`);
     } catch (error) {
-      player.sendMessage("§c✗ Failed to request inventory download");
-      console.error("Request download error:", error);
+      console.warn(`[BDS InvSee] Error logging block place: ${error}`);
     }
   }
 
-  clearInventory(player) {
+  logBlockBreak(eventData) {
+    try {
+      const breakData = {
+        player: eventData.player.name,
+        player_xuid: this.getPlayerXUID(eventData.player),
+        block_type: eventData.block.typeId,
+        location: {
+          x: eventData.block.location.x,
+          y: eventData.block.location.y,
+          z: eventData.block.location.z
+        },
+        dimension: eventData.dimension.id,
+        timestamp: Date.now()
+      };
+
+      console.warn(`[BLOCK_BROKEN] ${JSON.stringify(breakData)}`);
+    } catch (error) {
+      console.warn(`[BDS InvSee] Error logging block break: ${error}`);
+    }
+  }
+
+  handleChatMessage(eventData) {
+    const message = eventData.message.trim();
+    const player = eventData.sender;
+
+    // Handle restore commands
+    if (message.startsWith("[ENDER_CHEST_RESTORE]")) {
+      try {
+        const jsonStr = message.substring("[ENDER_CHEST_RESTORE]".length);
+        const restoreData = JSON.parse(jsonStr);
+        this.restorePlayerEnderChest(restoreData);
+      } catch (error) {
+        console.warn(`[BDS InvSee] Failed to parse restore data: ${error}`);
+      }
+    }
+    // Handle manual commands
+    else if (message === "!export") {
+      this.exportPlayerEnderChest(player);
+      player.sendMessage("§a✓ Ender chest data exported to server log");
+    }
+    else if (message === "!clear") {
+      this.clearPlayerInventory(player);
+      player.sendMessage("§e⚠ Inventory cleared");
+    }
+  }
+
+  exportPlayerInventory(player) {
+    const data = {
+      player_xuid: this.getPlayerXUID(player),
+      player_name: player.name,
+      timestamp: Date.now(),
+      inventory: [],
+      equipment: {},
+      location: player.location,
+      dimension: player.dimension.id
+    };
+
+    // Export main inventory
+    const inventory = player.getComponent("inventory");
+    if (inventory && inventory.container) {
+      for (let i = 0; i < inventory.container.size; i++) {
+        const item = inventory.container.getItem(i);
+        if (item) {
+          data.inventory.push({
+            slot: i,
+            type: item.typeId,
+            amount: item.amount,
+            enchantments: this.getItemEnchantments(item),
+            nbt: this.getItemNBT(item)
+          });
+        }
+      }
+    }
+
+    // Export equipment
+    const equipment = player.getComponent("equippable");
+    if (equipment) {
+      const slots = ["Head", "Chest", "Legs", "Feet", "Offhand"];
+      slots.forEach((slot) => {
+        try {
+          const item = equipment.getEquipment(slot);
+          if (item) {
+            data.equipment[slot.toLowerCase()] = {
+              type: item.typeId,
+              amount: item.amount,
+              enchantments: this.getItemEnchantments(item),
+              nbt: this.getItemNBT(item)
+            };
+          }
+        } catch (error) {
+          // Slot might not be available
+        }
+      });
+    }
+
+    return data;
+  }
+
+  restorePlayerEnderChest(restoreData) {
+    try {
+      // Find player by XUID
+      const player = world.getPlayers().find(p => 
+        this.getPlayerXUID(p) === restoreData.player_xuid
+      );
+      
+      if (!player) {
+        console.warn(`[BDS InvSee] Player not found for restore: ${restoreData.player_xuid}`);
+        return;
+      }
+
+      console.warn(`[BDS InvSee] Restoring ender chest for ${player.name}`);
+      
+      // Restore main inventory
+      const inventory = player.getComponent("inventory");
+      if (inventory && inventory.container && restoreData.inventory) {
+        // Clear inventory first
+        for (let i = 0; i < inventory.container.size; i++) {
+          inventory.container.setItem(i, undefined);
+        }
+        
+        // Restore items
+        restoreData.inventory.forEach((itemData) => {
+          if (itemData.slot < inventory.container.size) {
+            const itemStack = this.createItemStack(itemData);
+            if (itemStack) {
+              inventory.container.setItem(itemData.slot, itemStack);
+            }
+          }
+        });
+      }
+
+      // Restore equipment
+      const equipment = player.getComponent("equippable");
+      if (equipment && restoreData.equipment) {
+        Object.entries(restoreData.equipment).forEach(([slot, itemData]) => {
+          try {
+            const equipmentSlot = slot.charAt(0).toUpperCase() + slot.slice(1);
+            const itemStack = this.createItemStack(itemData);
+            if (itemStack) {
+              equipment.setEquipment(equipmentSlot, itemStack);
+            }
+          } catch (error) {
+            console.warn(`[BDS InvSee] Error restoring equipment slot ${slot}: ${error}`);
+          }
+        });
+      }
+
+      player.sendMessage("§a✓ Ender chest restored!");
+      console.warn(`[ENDER_CHEST_RESTORED] ${JSON.stringify({
+        player: player.name,
+        player_xuid: this.getPlayerXUID(player),
+        timestamp: Date.now()
+      })}`);
+      
+    } catch (error) {
+      console.warn(`[BDS InvSee] Error restoring ender chest: ${error}`);
+    }
+  }
+
+  clearPlayerInventory(player) {
     try {
       // Clear main inventory
       const inventory = player.getComponent("inventory");
@@ -88,205 +295,98 @@ class InventoryManager {
       // Clear equipment slots
       const equipment = player.getComponent("equippable");
       if (equipment) {
-        equipment.setEquipment("Head", undefined);
-        equipment.setEquipment("Chest", undefined);
-        equipment.setEquipment("Legs", undefined);
-        equipment.setEquipment("Feet", undefined);
-        equipment.setEquipment("Offhand", undefined);
-      }
-
-      player.sendMessage("§e⚠ Inventory cleared");
-    } catch (error) {
-      player.sendMessage("§c✗ Failed to clear inventory");
-      console.error("Clear inventory error:", error);
-    }
-  }
-
-  exportPlayerInventory(player) {
-    const data = {
-      player_xuid: this.getPlayerXUID(player),
-      player_name: player.name,
-      timestamp: Date.now(),
-      inventory: [],
-      equipment: {},
-    };
-
-    // Export main inventory (36 slots)
-    const inventory = player.getComponent("inventory");
-    if (inventory && inventory.container) {
-      for (let i = 0; i < inventory.container.size; i++) {
-        const item = inventory.container.getItem(i);
-        if (item) {
-          data.inventory.push({
-            slot: i,
-            type: item.typeId,
-            amount: item.amount,
-            enchantments: this.getItemEnchantments(item),
-            container_contents: this.getItemContainerContents(item)
-          });
-        }
-      }
-    }
-
-    // Export equipment
-    const equipment = player.getComponent("equippable");
-    if (equipment) {
-      const slots = ["Head", "Chest", "Legs", "Feet", "Offhand"];
-      slots.forEach((slot) => {
-        const item = equipment.getEquipment(slot);
-        if (item) {
-          data.equipment[slot.toLowerCase()] = {
-            type: item.typeId,
-            amount: item.amount,
-            enchantments: this.getItemEnchantments(item),
-            container_contents: this.getItemContainerContents(item)
-          };
-        }
-      });
-    }
-
-    return data;
-  }
-
-  restorePlayerInventory(data) {
-    try {
-      // Find player by XUID
-      const player = world.getPlayers().find((p) => this.getPlayerXUID(p) === data.player_xuid);
-      if (!player) {
-        console.warn("Player not found for inventory restore:", data.player_xuid);
-        return;
-      }
-
-      // Restore main inventory
-      const inventory = player.getComponent("inventory");
-      if (inventory && inventory.container && data.inventory) {
-        data.inventory.forEach((itemData) => {
-          if (itemData.slot < inventory.container.size) {
-            const itemStack = this.createItemStack(itemData);
-            inventory.container.setItem(itemData.slot, itemStack);
+        const slots = ["Head", "Chest", "Legs", "Feet", "Offhand"];
+        slots.forEach((slot) => {
+          try {
+            equipment.setEquipment(slot, undefined);
+          } catch (error) {
+            // Slot might not be available
           }
         });
       }
 
-      // Restore equipment
-      const equipment = player.getComponent("equippable");
-      if (equipment && data.equipment) {
-        Object.entries(data.equipment).forEach(([slot, itemData]) => {
-          const equipmentSlot = slot.charAt(0).toUpperCase() + slot.slice(1);
-          const itemStack = this.createItemStack(itemData);
-          equipment.setEquipment(equipmentSlot, itemStack);
-        });
-      }
-
-      player.sendMessage("§a✓ Inventory restored!");
+      console.warn(`[INVENTORY_CLEARED] ${JSON.stringify({
+        player: player.name,
+        player_xuid: this.getPlayerXUID(player),
+        timestamp: Date.now()
+      })}`);
+      
     } catch (error) {
-      console.error("Restore inventory error:", error);
+      console.warn(`[BDS InvSee] Error clearing inventory: ${error}`);
     }
   }
 
   createItemStack(itemData) {
     try {
       const itemStack = new ItemStack(itemData.type, itemData.amount);
-
+      
       // Apply enchantments if any
       if (itemData.enchantments && itemData.enchantments.length > 0) {
-        const enchantmentComponent = itemStack.getComponent("enchantments");
+        const enchantmentComponent = itemStack.getComponent("enchantable");
         if (enchantmentComponent) {
           itemData.enchantments.forEach((ench) => {
-            enchantmentComponent.enchantments.addEnchantment({
-              type: ench.type,
-              level: ench.level,
-            });
+            try {
+              enchantmentComponent.addEnchantment({
+                type: ench.type,
+                level: ench.level,
+              });
+            } catch (error) {
+              console.warn(`[BDS InvSee] Error adding enchantment: ${error}`);
+            }
           });
         }
       }
 
-      // Restore container contents (shulker boxes, bundles, etc.)
-      if (itemData.container_contents && itemData.container_contents.length > 0) {
-        this.setItemContainerContents(itemStack, itemData.container_contents);
-      }
-
       return itemStack;
     } catch (error) {
-      console.error("Failed to create item stack:", error);
+      console.warn(`[BDS InvSee] Failed to create item stack: ${error}`);
       return undefined;
     }
   }
 
   getItemEnchantments(item) {
     try {
-      const enchantmentComponent = item.getComponent("enchantments");
-      if (enchantmentComponent && enchantmentComponent.enchantments) {
-        const enchantments = [];
-        // Note: Actual enchantment iteration depends on API version
-        // This is a simplified structure
-        return enchantments;
+      const enchantmentComponent = item.getComponent("enchantable");
+      if (enchantmentComponent && enchantmentComponent.getEnchantments) {
+        return enchantmentComponent.getEnchantments().map(ench => ({
+          type: ench.type.id,
+          level: ench.level
+        }));
       }
     } catch (error) {
-      console.error("Failed to get enchantments:", error);
+      // Enchantments not available or error getting them
     }
     return [];
   }
 
-  getItemContainerContents(item) {
+  getItemNBT(item) {
     try {
-      // Check if item has container component (shulker boxes, bundles, etc.)
-      const containerComponent = item.getComponent("container");
-      if (containerComponent && containerComponent.container) {
-        const contents = [];
-        for (let i = 0; i < containerComponent.container.size; i++) {
-          const containerItem = containerComponent.container.getItem(i);
-          if (containerItem) {
-            contents.push({
-              slot: i,
-              type: containerItem.typeId,
-              amount: containerItem.amount,
-              enchantments: this.getItemEnchantments(containerItem),
-              container_contents: this.getItemContainerContents(containerItem) // Recursive for nested containers
-            });
-          }
-        }
-        return contents;
-      }
+      // Get basic item properties
+      return {
+        nameTag: item.nameTag || null,
+        lore: item.getLore ? item.getLore() : [],
+        keepOnDeath: item.keepOnDeath || false
+      };
     } catch (error) {
-      console.warn("Failed to get item container contents:", error);
-    }
-    return [];
-  }
-
-  setItemContainerContents(itemStack, contents) {
-    try {
-      // Set container contents for items like shulker boxes
-      const containerComponent = itemStack.getComponent("container");
-      if (containerComponent && containerComponent.container) {
-        contents.forEach((itemData) => {
-          if (itemData.slot < containerComponent.container.size) {
-            const nestedItem = this.createItemStack(itemData);
-            containerComponent.container.setItem(itemData.slot, nestedItem);
-          }
-        });
-      }
-    } catch (error) {
-      console.warn("Failed to set item container contents:", error);
+      return {};
     }
   }
 
   getPlayerXUID(player) {
     try {
-      return player.id || player.xuid || "unknown";
-    } catch (error) {
-      console.warn("Could not get player XUID:", error);
       return player.id || "unknown";
+    } catch (error) {
+      return "unknown";
     }
   }
 }
 
-// Initialize the addon
+// Initialize the ender chest manager
 system.runInterval(() => {
-  if (!world.inventoryManager) {
-    console.warn("[BDS InvSee] Initializing inventory manager...");
-    world.inventoryManager = new InventoryManager();
-    world.sendMessage("§b[BDS InvSee] §fAddon loaded - Use !upload or !download in chat");
-    console.warn("[BDS InvSee] Addon fully initialized and ready!");
+  if (!world.enderChestManager) {
+    console.warn("[BDS InvSee] Initializing Ender Chest Manager...");
+    world.enderChestManager = new EnderChestManager();
+    world.sendMessage("§b[BDS InvSee] §fEnder Chest Manager loaded - Use !export or !clear in chat");
+    console.warn("[BDS InvSee] Ender Chest Manager fully initialized!");
   }
 }, 20);
