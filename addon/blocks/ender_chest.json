@@ -1,14 +1,29 @@
 {
-  "format_version": "1.20.10",
+  "format_version": "1.21.0",
   "minecraft:block": {
     "description": {
       "identifier": "bds_invsee:ender_chest",
-      "is_experimental": false
+      "menu_category": {
+        "category": "construction"
+      }
     },
     "components": {
-      "minecraft:destroy_time": 2,
-      "minecraft:explosion_resistance": 6000,
-      "minecraft:creative_category": { "category": "construction" }
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 2.0
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 6000
+      },
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "ender_chest",
+          "render_method": "opaque"
+        }
+      },
+      "minecraft:geometry": "geometry.chest",
+      "minecraft:collision_box": true,
+      "minecraft:selection_box": true,
+      "minecraft:light_emission": 7
     }
   }
 }

@@ -1,8 +1,8 @@
 {
-  "format_version": "1.20.10",
+  "format_version": "1.20.60",
   "minecraft:recipe_shaped": {
     "description": {
-      "identifier": "bds_invsee:ender_chest_recipe"
+      "identifier": "minecraft:ender_chest"
     },
     "tags": ["crafting_table"],
     "pattern": ["OOO", "OEO", "OOO"],
@@ -10,6 +10,16 @@
       "O": { "item": "minecraft:obsidian" },
       "E": { "item": "minecraft:ender_eye" }
     },
+    "unlock": [
+      {
+        "context": "player_inventory_changed",
+        "item": "minecraft:obsidian"
+      },
+      {
+        "context": "player_inventory_changed",
+        "item": "minecraft:ender_eye"
+      }
+    ],
     "result": {
       "item": "bds_invsee:ender_chest",
       "count": 1
