@@ -1,0 +1,9 @@
+{
+  "resource_pack_name": "bds_invsee_resources",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "bds_invsee_ender_chest": {
+      "textures": "textures/items/ender_chest"
+    }
+  }
+}

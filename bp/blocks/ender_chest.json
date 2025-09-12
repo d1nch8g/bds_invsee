@@ -16,7 +16,7 @@
       },
       "minecraft:material_instances": {
         "*": {
-          "texture": "ender_chest",
+          "texture": "bds_invsee_ender_chest",
           "render_method": "opaque"
         }
       },
