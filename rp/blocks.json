@@ -1,13 +1,13 @@
 {
-  "format_version": "1.21.0",
-  "bds_invsee:ender_chest": {
+  "format_version": "1.20.50",
+  "bds_invsee:programmable_ender_chest": {
     "textures": {
-      "down": "ender_chest_inventory_top",
-      "east": "ender_chest_inventory_side",
-      "north": "ender_chest_inventory_side",
-      "south": "ender_chest_inventory_front",
-      "up": "ender_chest_inventory_top",
-      "west": "ender_chest_inventory_side"
+      "down": "ender_chest_top",
+      "east": "ender_chest_side",
+      "north": "ender_chest_side", 
+      "south": "ender_chest_front",
+      "up": "ender_chest_top",
+      "west": "ender_chest_side"
     }
   }
 }

@@ -5,7 +5,7 @@
       "entries": [
         {
           "type": "item",
-          "name": "bds_invsee:ender_chest",
+          "name": "bds_invsee:programmable_ender_chest",
           "conditions": [
             {
               "condition": "match_tool",

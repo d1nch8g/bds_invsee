@@ -4,13 +4,13 @@
   "padding": 8,
   "num_mip_levels": 4,
   "texture_data": {
-    "ender_chest_inventory_top": {
+    "ender_chest_top": {
       "textures": ["textures/blocks/ender_chest_top"]
     },
-    "ender_chest_inventory_side": {
+    "ender_chest_side": {
       "textures": ["textures/blocks/ender_chest_side"]
     },
-    "ender_chest_inventory_front": {
+    "ender_chest_front": {
       "textures": ["textures/blocks/ender_chest_front"]
     }
   }

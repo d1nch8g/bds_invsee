@@ -1,29 +1,37 @@
 {
-  "format_version": "1.21.0",
+  "format_version": "1.20.50",
   "minecraft:block": {
     "description": {
-      "identifier": "bds_invsee:ender_chest",
-      "menu_category": {
-        "category": "construction"
-      }
+      "identifier": "bds_invsee:programmable_ender_chest"
     },
     "components": {
-      "minecraft:destructible_by_mining": {
-        "seconds_to_destroy": 2.0
-      },
-      "minecraft:destructible_by_explosion": {
-        "explosion_resistance": 6000
-      },
       "minecraft:material_instances": {
         "*": {
-          "texture": "bds_invsee_ender_chest",
+          "texture": "ender_chest_side",
+          "render_method": "opaque"
+        },
+        "down": {
+          "texture": "ender_chest_top",
+          "render_method": "opaque"
+        },
+        "up": {
+          "texture": "ender_chest_top", 
+          "render_method": "opaque"
+        },
+        "north": {
+          "texture": "ender_chest_front",
           "render_method": "opaque"
         }
       },
-      "minecraft:geometry": "geometry.chest",
-      "minecraft:collision_box": true,
-      "minecraft:selection_box": true,
-      "minecraft:light_emission": 7
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 22.5
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 600
+      },
+      "minecraft:friction": 0.6,
+      "minecraft:map_color": "#8f5ca8"
     }
   }
 }
