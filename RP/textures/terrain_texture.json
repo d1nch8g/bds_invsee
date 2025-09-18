@@ -1,73 +1,16 @@
 {
 	"num_mip_levels": 4,
 	"padding": 8,
-	"resource_pack_name": "IronChests",
+	"resource_pack_name": "CopperChest",
 	"texture_name": "atlas.terrain",
 	"texture_data": {
-		"diamondchest": {
-			"textures": "textures/blocks/diamondchest"
-		},
-		"goldchest": {
-			"textures": [
-				"textures/blocks/goldchest"
-			]
-		},
-		"ironchest": {
-			"textures": [
-				"textures/blocks/ironchest"
-			]
-		},
-		"obsidianchest": {
-			"textures": [
-				"textures/blocks/obsidianchest"
-			]
-		},
-		"crystalchest": {
-			"textures": [
-				"textures/blocks/crystalchest"	
-			]
-		},
-		"dirtchest": {
-			"textures": [
-				"textures/blocks/dirtchest"
-		    ]
-		},
-		"crystalchest_closed": {
-			"textures": [
-				"textures/blocks/crystalchest_closed"
-		    ]
-		},
 		"copperchest": {
 			"textures": [
 				"textures/blocks/copperchest"
 			]
 		},
-		"obsidianchest_open": {
-			"textures": ["textures/blocks/obsidianchest_open"
-			]
-		},
-		"crystalchest_open": {
-			"textures": ["textures/blocks/crystalchest_open"
-		    ]
-	    },
-	    "diamondchest_open": {
-			"textures": ["textures/blocks/diamondchest_open"
-			]
-		},
-		"goldchest_open": {
-			"textures": ["textures/blocks/goldchest_open"
-			]
-		},
-		"ironchest_open": {
-			"textures": ["textures/blocks/ironchest_open"
-			]
-		},
 		"copperchest_open": {
 			"textures": ["textures/blocks/copperchest_open"
-			]
-		},
-		"dirtchest_open": {
-			"textures": ["textures/blocks/dirtchest_open"
 			]
 		}
 	}

@@ -1,12 +1,7 @@
 import { system, world } from "@minecraft/server";
 
 const chests = [
-    "obsidian_chest",
-    "diamond_chest",
-    "gold_chest",
-    "iron_chest",
-    "copper_chest",
-    "dirt_chest"
+    "copper_chest"
     ];
           
           
@@ -24,12 +19,7 @@ world.beforeEvents.worldInitialize.subscribe(initEvent => {
               entity.nameTag = `iron_chests.${findChest}`;
         });
       }
-      if (block.typeId === 'iron_chests:crystal_chest') {
-          system.run(() => {
-              let entity = block.dimension.spawnEntity('iron_chests:crystal_chest',block.center());
-entity.nameTag = "§o§e§d";
-        });
-      }
+
     }
   });
 });

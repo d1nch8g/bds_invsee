@@ -49,8 +49,8 @@
       "minecraft:light_dampening": 0,
       "minecraft:custom_components": [
         "iron_chests:place",
-        "iron_chests:crystal_chest_destroy",
-        "iron_chests:crystal_chest"
+        "iron_chests:block_destroy",
+        "iron_chests:copper_chest"
       ]
     },
     "permutations": [
