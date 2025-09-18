@@ -2,12 +2,12 @@
 iron_chests.obsidian_chest=Obsidian Chest
 iron_chests.diamond_chest=Diamond Chest
 iron_chests.gold_chest=Gold Chest
-iron_chests.iron_chest=Iron Chest
-iron_chests.copper_chest=Copper Chest
+iron_chests.iron_chest=X Ender Chest
+iron_chests.copper_chest=X Ender Chest
 iron_chests.dirt_chest=Dirt Chest
 tile.iron_chests:dirt_chest.name=Dirt Chest
-tile.iron_chests:copper_chest.name=Copper Chest
-tile.iron_chests:iron_chest.name=Iron Chest
+tile.iron_chests:copper_chest.name=X Ender Chest
+tile.iron_chests:iron_chest.name=X Ender Chest
 tile.iron_chests:gold_chest.name=Gold Chest
 tile.iron_chests:diamond_chest.name=Diamond Chest
 tile.iron_chests:obsidian_chest.name=Obsidian Chest
