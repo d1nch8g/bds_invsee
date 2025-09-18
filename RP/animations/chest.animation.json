@@ -48,6 +48,16 @@
 					"rotation": [-105, 0, 0]
 				}
 			}
+		},
+		"animation.chest.closed_idle": {
+			"loop": true,
+			"animation_length": 0.5,
+			"override_previous_animation": true,
+			"bones": {
+				"bone2": {
+					"rotation": [0, 0, 0]
+				}
+			}
 		}
 	}
 }

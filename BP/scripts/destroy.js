@@ -3,7 +3,7 @@ import { system, world, ItemStack } from "@minecraft/server";
 // Destroy
 world.beforeEvents.worldInitialize.subscribe(initEvent => {
       const registry = initEvent.blockComponentRegistry;
-  registry.registerCustomComponent("iron_chests:block_destroy", {
+  registry.registerCustomComponent("x_ender_chest:block_destroy", {
     onPlayerDestroy(event) {
       const block = event.block;
       const dimension = event.dimension;
@@ -11,14 +11,14 @@ world.beforeEvents.worldInitialize.subscribe(initEvent => {
 
       const entities = dimension.getEntities({
         location: block.center(),
-        type: "iron_chests:copper_chest",
+        type: "x_ender_chest:x_ender_chest",
         maxDistance: 0.75
       });
 
-      const copper_chest = entities[0];
-      if (!copper_chest) return;
+      const x_ender_chest = entities[0];
+      if (!x_ender_chest) return;
 
-      const inventoryComponent = copper_chest.getComponent("minecraft:inventory");
+      const inventoryComponent = x_ender_chest.getComponent("minecraft:inventory");
       if (!inventoryComponent) return;
 
       const inventory = inventoryComponent.container;
@@ -30,7 +30,7 @@ world.beforeEvents.worldInitialize.subscribe(initEvent => {
           dimension.spawnItem(item, block.center());
         }
       }
-      copper_chest.remove();
+      x_ender_chest.remove();
     }
 });
 });

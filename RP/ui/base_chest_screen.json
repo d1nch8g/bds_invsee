@@ -1,22 +1,13 @@
-/********************************************************
-+*   (c) Mojang. All rights reserved                       *
-+*   (c) Microsoft. All rights reserved.                   *
-+*********************************************************/
-
 {
   "namespace": "chest",
 
-  ////---------------------------------------------------------------------------
-  //// #slot region area
-  ////---------------------------------------------------------------------------
-
   "chest_label": {
     "type": "label",
-    "offset": [ 7, -1 ],
+    "offset": [7, -1],
     "anchor_from": "top_left",
     "anchor_to": "top_left",
     "text": "$container_title",
-    "size": [ "90%", "default" ],
+    "size": ["90%", "default"],
     "color": "$title_text_color",
     "layer": 2
   },
@@ -27,41 +18,35 @@
 
   "small_chest_grid": {
     "type": "grid",
-    "size": [ 162, 54 ],
+    "size": [162, 54],
     "anchor_from": "top_left",
     "anchor_to": "top_left",
-    "grid_dimensions": [ 9, 3 ],
+    "grid_dimensions": [9, 3],
     "grid_item_template": "chest.chest_grid_item",
     "collection_name": "container_items"
   },
 
   "large_chest_grid": {
     "type": "grid",
-    "size": [ 162, 108 ],
+    "size": [162, 108],
     "anchor_from": "top_left",
     "anchor_to": "top_left",
-    "grid_dimensions": [ 9, 6 ],
+    "grid_dimensions": [9, 6],
     "grid_item_template": "chest.chest_grid_item",
     "collection_name": "container_items"
   },
 
-  //// #endregion
-
-  ////---------------------------------------------------------------------------
-  //// #region chest area
-  ////---------------------------------------------------------------------------
-
   "small_chest_panel_top_half": {
     "type": "panel",
-    "size": [ "100%", "50%" ],
-    "offset": [ 0, 12 ],
+    "size": ["100%", "50%"],
+    "offset": [0, 12],
     "anchor_to": "top_left",
     "anchor_from": "top_left",
     "controls": [
       { "chest_label@chest.chest_label": {} },
       {
         "small_chest_grid@chest.small_chest_grid": {
-          "offset": [ 7, 9 ]
+          "offset": [7, 9]
         }
       }
     ]
@@ -69,25 +54,19 @@
 
   "large_chest_panel_top_half": {
     "type": "panel",
-    "size": [ "100%", 132 ],
-    "offset": [ 0, 11 ],
+    "size": ["100%", 132],
+    "offset": [0, 11],
     "anchor_to": "top_left",
     "anchor_from": "top_left",
     "controls": [
       { "chest_label@chest.chest_label": {} },
       {
         "large_chest_grid@chest.large_chest_grid": {
-          "offset": [ 7, 10 ]
+          "offset": [7, 10]
         }
       }
     ]
   },
-
-  //// #endregion
-
-  ////---------------------------------------------------------------------------
-  //// #region screen
-  ////---------------------------------------------------------------------------
 
   "small_chest_panel": {
     "type": "panel",
@@ -98,7 +77,9 @@
           "layer": 14
         }
       },
-      { "selected_item_details_factory@common.selected_item_details_factory": {} },
+      {
+        "selected_item_details_factory@common.selected_item_details_factory": {}
+      },
       {
         "root_panel@common.root_panel": {
           "layer": 1,
@@ -109,23 +90,31 @@
                 "type": "panel",
                 "layer": 5,
                 "controls": [
-                  { "small_chest_panel_top_half@chest.small_chest_panel_top_half": {} },
-                  { "inventory_panel_bottom_half_with_label@common.inventory_panel_bottom_half_with_label": {} },
+                  {
+                    "small_chest_panel_top_half@chest.small_chest_panel_top_half": {}
+                  },
+                  {
+                    "inventory_panel_bottom_half_with_label@common.inventory_panel_bottom_half_with_label": {}
+                  },
                   { "hotbar_grid@common.hotbar_grid_template": {} },
-                  { "inventory_take_progress_icon_button@common.inventory_take_progress_icon_button": {} }
+                  {
+                    "inventory_take_progress_icon_button@common.inventory_take_progress_icon_button": {}
+                  }
                 ]
               }
             },
-            { "inventory_selected_icon_button@common.inventory_selected_icon_button": {} },
+            {
+              "inventory_selected_icon_button@common.inventory_selected_icon_button": {}
+            },
             { "gamepad_cursor@common.gamepad_cursor_button": {} }
           ]
         }
       }
     ]
   },
-  
+
   "selected_item_details@common.selected_item_details": {
-    "offset": [ 0, 0 ]
+    "offset": [0, 0]
   },
 
   "large_chest_panel": {
@@ -144,7 +133,7 @@
       },
       {
         "root_panel@common.root_panel": {
-          "size": [ 176, 220 ],
+          "size": [176, 220],
           "layer": 1,
           "controls": [
             { "common_panel@common.common_panel": {} },
@@ -153,14 +142,22 @@
                 "type": "panel",
                 "layer": 5,
                 "controls": [
-                  { "large_chest_panel_top_half@chest.large_chest_panel_top_half": {} },
-                  { "inventory_panel_bottom_half_with_label@common.inventory_panel_bottom_half_with_label": {} },
+                  {
+                    "large_chest_panel_top_half@chest.large_chest_panel_top_half": {}
+                  },
+                  {
+                    "inventory_panel_bottom_half_with_label@common.inventory_panel_bottom_half_with_label": {}
+                  },
                   { "hotbar_grid@common.hotbar_grid_template": {} },
-                  { "inventory_take_progress_icon_button@common.inventory_take_progress_icon_button": {} }
+                  {
+                    "inventory_take_progress_icon_button@common.inventory_take_progress_icon_button": {}
+                  }
                 ]
               }
             },
-            { "inventory_selected_icon_button@common.inventory_selected_icon_button": {} },
+            {
+              "inventory_selected_icon_button@common.inventory_selected_icon_button": {}
+            },
             { "gamepad_cursor@common.gamepad_cursor_button": {} }
           ]
         }
@@ -168,14 +165,11 @@
     ]
   },
 
-  "ender_chest_panel@chest.small_chest_panel": {
-  },
+  "ender_chest_panel@chest.small_chest_panel": {},
 
-  "shulker_box_panel@chest.small_chest_panel": {
-  },
+  "shulker_box_panel@chest.small_chest_panel": {},
 
-  "barrel_panel@chest.small_chest_panel": {
-  },
+  "barrel_panel@chest.small_chest_panel": {},
 
   "small_chest_screen@common.inventory_screen_common": {
     "$close_on_player_hurt|default": true,
@@ -255,5 +249,3 @@
     ]
   }
 }
-
-// #endregion

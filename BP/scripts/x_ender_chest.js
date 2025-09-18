@@ -1,17 +1,17 @@
 import { system, world } from "@minecraft/server";
 
-const chests = ["copper_chest"];
+const chests = ["x_ender_chest"];
 
 world.beforeEvents.worldInitialize.subscribe(initEvent => {
-  initEvent.blockComponentRegistry.registerCustomComponent("iron_chests:copper_chest", {
+  initEvent.blockComponentRegistry.registerCustomComponent("x_ender_chest:x_ender_chest", {
     onTick(event) {
         const block = event.block;
         const dimension = event.dimension;
 
-        const findChest = chests.find(chest => block.typeId === `iron_chests:${chest}`)
+        const findChest = chests.find(chest => block.typeId === `x_ender_chest:${chest}`)
         const entities = dimension.getEntities({
             location: block.center(),
-            type: `iron_chests:${findChest}`,
+            type: `x_ender_chest:${findChest}`,
             maxDistance: 0.75
         });
         const chestEntity = entities[0];
@@ -49,26 +49,26 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
         z: Math.floor(sourceEntity.location.z)
     });
     
-    const findChest = chests.find(chest => block.typeId === `iron_chests:${chest}`);
+    const findChest = chests.find(chest => block.typeId === `x_ender_chest:${chest}`);
     if (!findChest) return;
 
-    if (id == "iron_chests:open" && findChest) {
-        sourceEntity.setProperty("iron_chests:opened", true);
+    if (id == "x_ender_chest:open" && findChest) {
+        sourceEntity.setProperty("x_ender_chest:opened", true);
     }
 
-    if (id == "iron_chests:close" && sourceEntity.hasTag("chestOpened")) {
+    if (id == "x_ender_chest:close" && sourceEntity.hasTag("chestOpened")) {
         sourceEntity.removeTag("chestOpened");
         sourceEntity.dimension.playSound("random.chestclosed", sourceEntity.location);
 
-        sourceEntity.setProperty("iron_chests:opened", false);
         sourceEntity.addTag("closed");
 
         sourceEntity.dimension.runCommand(`execute positioned ${sourceEntity.location.x} ${sourceEntity.location.y} ${sourceEntity.location.z} run tag @e[tag=top,r=7] remove interacted`);
         sourceEntity.dimension.runCommand(`execute positioned ${sourceEntity.location.x} ${sourceEntity.location.y} ${sourceEntity.location.z} run playanimation @e[family=top,r=1,c=1] animation.chest.close`);
+        
         system.runTimeout(() => {
-            sourceEntity.dimension.runCommand(`execute positioned ${sourceEntity.location.x} ${sourceEntity.location.y} ${sourceEntity.location.z} run event entity @e[family=top,r=0,c=1] iron_chests:despawn_chest`);
-            block.setPermutation(block.permutation.withState('iron_chests:top', 0));
-        }, 9);
+            sourceEntity.dimension.runCommand(`execute positioned ${sourceEntity.location.x} ${sourceEntity.location.y} ${sourceEntity.location.z} run event entity @e[family=top,r=0,c=1] x_ender_chest:despawn_chest`);
+            block.setPermutation(block.permutation.withState('x_ender_chest:top', 0));
+        }, 8);
     }
 });
 
@@ -77,7 +77,7 @@ world.afterEvents.playerInteractWithEntity.subscribe((event) => {
     const player = event.player;
     const target = event.target;
 
-    const findChest = chests.find(chest => target.typeId === `iron_chests:${chest}`);
+    const findChest = chests.find(chest => target.typeId === `x_ender_chest:${chest}`);
     if (!findChest) return;
 
     const pos = target.location;
@@ -102,18 +102,28 @@ world.afterEvents.playerInteractWithEntity.subscribe((event) => {
     const chestRot = directions[chestTag] ?? 0;
 
     function SpawnEntity() {
+        console.log(`Attempting to spawn: x_ender_chest:${findChest}_top at ${pos.x} ${pos.y} ${pos.z} with rotation ${chestRot}`);
         target.dimension.runCommand(
-            `execute positioned ${pos.x} ${pos.y} ${pos.z} run summon iron_chests:${findChest}_top ~ ~ ~ ${chestRot}`);
+            `execute positioned ${pos.x} ${pos.y} ${pos.z} run summon x_ender_chest:${findChest}_top ~ ~ ~ ${chestRot}`);
+        console.log("Spawn command executed");
     }
 
-    if (target.typeId === `iron_chests:${findChest}`) {
+    if (target.typeId === `x_ender_chest:${findChest}`) {
         target.addTag("chestOpened");
         player.addTag("interacted");
         target.dimension.playSound("random.chestopen", pos);
 
-        block.setPermutation(block.permutation.withState('iron_chests:top', 1));
+        block.setPermutation(block.permutation.withState('x_ender_chest:top', 1));
         SpawnEntity();
-        target.dimension.runCommandAsync(
-            `execute positioned ${pos.x} ${pos.y} ${pos.z} run playanimation @e[family=top,r=0,c=1] animation.chest.open`);
+        
+        // Start closed immediately, then play open animation
+        // First set to closed idle to override the default opened state
+        target.dimension.runCommand(`execute positioned ${pos.x} ${pos.y} ${pos.z} run playanimation @e[family=top,r=2,c=1] closed_idle`);
+        
+        system.runTimeout(() => {
+            console.log(`Playing open animation at ${pos.x},${pos.y},${pos.z}`);
+            // Play open animation
+            target.dimension.runCommand(`execute positioned ${pos.x} ${pos.y} ${pos.z} run playanimation @e[family=top,r=2,c=1] animation.chest.open`);
+        }, 2);
     }
 });

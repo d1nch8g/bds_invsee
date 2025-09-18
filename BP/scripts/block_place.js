@@ -1,22 +1,22 @@
 import { system, world } from "@minecraft/server";
 
 const chests = [
-    "copper_chest"
+    "x_ender_chest"
     ];
           
           
 world.beforeEvents.worldInitialize.subscribe(initEvent => {
-  initEvent.blockComponentRegistry.registerCustomComponent("iron_chests:place", {
+  initEvent.blockComponentRegistry.registerCustomComponent("x_ender_chest:place", {
     onPlace(event) {
       
       const block = event.block;
       const dimension = event.dimension
       
-      const findChest = chests.find(chest => block.typeId === `iron_chests:${chest}`)
+      const findChest = chests.find(chest => block.typeId === `x_ender_chest:${chest}`)
       if (findChest) {
           system.run(() => {
-              let entity = block.dimension.spawnEntity(`iron_chests:${findChest}`,block.center());
-              entity.nameTag = `iron_chests.${findChest}`;
+              let entity = block.dimension.spawnEntity(`x_ender_chest:${findChest}`,block.center());
+              entity.nameTag = `x_ender_chest.${findChest}`;
         });
       }
 
