@@ -1,0 +1,36 @@
+{
+  "format_version": "1.12",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "iron_chests:gold_diamond_upgrade"
+    },
+    "tags": [
+      "crafting_table"
+      
+    ],
+    "pattern": [
+      "GGG",
+      "IPI",
+      "GGG"
+  ],
+    "key": {
+      "P": {
+        "item": "minecraft:gold_ingot",
+        "data": 0
+      },
+      "I": {
+        "item": "minecraft:diamond",
+        "data": 0
+      },
+      "G": {
+        "item": "minecraft:glass",
+        "data": 0
+      }
+    },
+    "result": {
+      "item": "iron_chests:gold_diamond_upgrade",
+      "count": 1,
+      "data": 0
+    }
+  }
+}

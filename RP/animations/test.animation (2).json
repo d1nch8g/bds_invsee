@@ -1,0 +1,47 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.crystal_chest.itemtest": {
+			"loop": true,
+			"animation_length": 6,
+			"override_previous_animation": true,
+		    "blend_weight": 1,
+			"loop_delay": 0,
+			"bones": {
+			    "head": {
+					"position": [0.3, 0, 0.5],
+					"scale": 0.5
+				},
+			    "head_pivot": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"6.0": [0, -360, 0]
+					},
+					"position": [0, 0, 0]
+				},
+			    "leftitem": {
+					"position": [0.3, 0, 0.5],
+					"scale": 0.5
+				},
+			    "leftarm": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"6.0": [0, -360, 0]
+					},
+					"position": [0, 0, 0]
+				},
+				"rightitem": {
+					"position": [0.3, 0, 0.5],
+					"scale": 0.5
+				},
+				"rightarm": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"6.0": [0, -360, 0]
+					},
+					"position": [0, 0, 0]
+				}
+			}
+		}
+	}
+}

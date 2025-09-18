@@ -1,0 +1,30 @@
+{
+  "format_version": "1.8.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "iron_chests:crystal_chest",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": ""
+      },
+      "animations": {
+          "idle": "animation.crystal_chest.itemtest",
+          "move": "animation.crystal_chest.itemtest"
+      },
+	  "animation_controllers": [ {
+	        "idle": "controller.animation.item"
+	        },
+	        {
+	      	"move": "controller.animation.item"
+	        }
+	  ],
+      "geometry": {
+        "default": "geometry.test"
+      },
+      "render_controllers": [ "controller.render.default"],
+      "enable_attachables": true
+    }
+  }
+}

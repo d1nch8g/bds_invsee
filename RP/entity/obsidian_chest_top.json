@@ -1,0 +1,30 @@
+{
+  "format_version": "1.8.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "iron_chests:obsidian_chest_top",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/blocks/obsidianchest.png"
+      },
+      "animations": {
+          "idle": "animation.chest.opened",
+          "move": "animation.chest.opened"
+      },
+	  "animation_controllers": [ {
+	        "idle": "controller.animation.item"
+	        },
+	        {
+	      	"move": "controller.animation.item"
+	        }
+	  ],
+      "geometry": {
+        "default": "geometry.chest_entity"
+      },
+      "render_controllers": [ "controller.render.default"],
+      "enable_attachables": false
+    }
+  }
+}

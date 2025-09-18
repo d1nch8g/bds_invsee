@@ -1,0 +1,43 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.chest_items_3",
+				"texture_width": 64,
+				"texture_height": 64,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 3.5,
+				"visible_bounds_offset": [0, 1.25, 0]
+			},
+			"bones": [
+				{
+					"name": "item",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "rightarm",
+					"parent": "item",
+					"pivot": [-3, -6, 3]
+				},
+				{
+					"name": "rightitem",
+					"parent": "rightarm",
+					"pivot": [-3.5, -6, 3],
+					"rotation": [-75, -10, -15]
+				},
+				{
+					"name": "leftarm",
+					"parent": "item",
+					"pivot": [-3, -6, -3]
+				},
+				{
+					"name": "leftitem",
+					"parent": "leftarm",
+					"pivot": [-3.5, -6, -3],
+					"rotation": [-75, -10, -15]
+				}
+			]
+		}
+	]
+}

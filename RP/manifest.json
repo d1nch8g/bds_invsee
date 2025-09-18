@@ -1,0 +1,42 @@
+{
+	"format_version": 2,
+	"metadata": {
+		"authors": [
+			"Ric4rdo_g4m3r"
+		],
+		"generated_with": {
+			"bridge": [
+				"2.7.34"
+			],
+			"dash": [
+				"0.11.7"
+			]
+		}
+	},
+	"header": {
+		"name": "Classic Iron Chests",
+		"description": "Iron Chests mod has chests for the various metals in vanilla minecraft with varying sizes!",
+		"min_engine_version": [
+			1,
+			21,
+			30
+		],
+		"uuid": "72f5612b-feb7-4e15-9bd2-c5fb2a994bec",
+		"version": [
+			1,
+			0,
+			0
+		]
+	},
+	"modules": [
+		{
+			"type": "resources",
+			"uuid": "3ee2a5be-445d-4cd3-a04d-19a1ea3c1f5c",
+			"version": [
+				1,
+				0,
+				0
+			]
+		}
+	]
+}

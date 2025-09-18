@@ -1,0 +1,32 @@
+{
+  "format_version": "1.12",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "iron_chests:crystal_chest"
+    },
+    "tags": [
+      "crafting_table"
+      
+    ],
+    "pattern": [
+      "III",
+      "IPI",
+      "III"
+  ],
+    "key": {
+      "P": {
+        "item": "iron_chests:diamond_chest",
+        "data": 0
+      },
+      "I": {
+        "item": "minecraft:glass",
+        "data": 0
+      }
+    },
+    "result": {
+      "item": "iron_chests:crystal_chest",
+      "count": 1,
+      "data": 0
+    }
+  }
+}

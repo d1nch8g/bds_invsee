@@ -1,3 +1,5 @@
 *.mcpack
 *.zip
 server
+example/**
+*.mcaddon

@@ -1,0 +1,27 @@
+{
+    "resource_pack_name": "IronChests",
+    "texture_name": "atlas.items",
+    "texture_data": {
+        "diamondcrystalupgrade": {
+            "textures": "textures/items/diamondcrystalupgrade"
+        },
+        "diamondobsidianupgrade": {
+            "textures": "textures/items/diamondobsidianupgrade"
+        },
+        "golddiamondupgrade": {
+            "textures": "textures/items/golddiamondupgrade"
+        },
+        "irongoldupgrade": {
+            "textures": "textures/items/irongoldupgrade"
+        },
+        "woodironupgrade": {
+            "textures": "textures/items/woodironupgrade"
+        },
+        "woodcopperupgrade": {
+            "textures": "textures/items/woodcopperupgrade"
+        },
+        "copperironupgrade": {
+            "textures": "textures/items/copperironupgrade"
+        }
+    }
+}
