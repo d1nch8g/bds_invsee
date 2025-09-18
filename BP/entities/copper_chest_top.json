@@ -22,6 +22,7 @@
           "inanimate"
         ]
       },
+
       "minecraft:collision_box": {
         "height": 0,
         "width": 0
@@ -71,7 +72,7 @@
       "tick": {
         "queue_command": {
           "command": [
-            "execute if block ~~~ air run event entity @s iron_chests:despawn_chest"
+            "execute unless block ~~~ iron_chests:copper_chest run event entity @s iron_chests:despawn_chest"
           ]
         }
       }
