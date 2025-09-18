@@ -58,7 +58,7 @@ system.afterEvents.scriptEventReceive.subscribe((event) => {
 
     if (id == "x_ender_chest:close" && sourceEntity.hasTag("chestOpened")) {
         sourceEntity.removeTag("chestOpened");
-        sourceEntity.dimension.playSound("random.chestclosed", sourceEntity.location);
+        sourceEntity.dimension.playSound("random.enderchestclosed", sourceEntity.location);
 
         sourceEntity.addTag("closed");
 
@@ -111,7 +111,7 @@ world.afterEvents.playerInteractWithEntity.subscribe((event) => {
     if (target.typeId === `x_ender_chest:${findChest}`) {
         target.addTag("chestOpened");
         player.addTag("interacted");
-        target.dimension.playSound("random.chestopen", pos);
+        target.dimension.playSound("random.enderchestopen", pos);
 
         block.setPermutation(block.permutation.withState('x_ender_chest:top', 1));
         SpawnEntity();
