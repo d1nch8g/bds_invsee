@@ -36,7 +36,7 @@
           "ambient_occlusion": true
         }
       },
-      "minecraft:display_name": "X Ender Chest \n§o§9Iron Chests",
+      "minecraft:display_name": "X Ender Chest \n§o§9Decentralized storage",
       "tag:minecraft:is_pickaxe_item_destructible": {},
       "minecraft:destructible_by_mining": {
         "seconds_to_destroy": 1.3
