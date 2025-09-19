@@ -39,15 +39,15 @@
       "minecraft:display_name": "X Ender Chest \n§o§9Decentralized storage",
       "tag:minecraft:is_pickaxe_item_destructible": {},
       "minecraft:destructible_by_mining": {
-        "seconds_to_destroy": 1.3
+        "seconds_to_destroy": 32.5
       },
+      "minecraft:loot": "loot_tables/blocks/x_ender_chest.json",
       "minecraft:collision_box": true,
       "minecraft:selection_box": true,
       "minecraft:light_dampening": 0,
-      "minecraft:light_emission": 7,
+      "minecraft:light_emission": 9,
       "minecraft:custom_components": [
         "x_ender_chest:place",
-        "x_ender_chest:block_destroy",
         "x_ender_chest:x_ender_chest"
       ]
     },
