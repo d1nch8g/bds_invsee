@@ -102,10 +102,10 @@ world.afterEvents.playerInteractWithEntity.subscribe((event) => {
     const chestRot = directions[chestTag] ?? 0;
 
     function SpawnEntity() {
-        console.log(`Attempting to spawn: x_ender_chest:${findChest}_top at ${pos.x} ${pos.y} ${pos.z} with rotation ${chestRot}`);
+
         target.dimension.runCommand(
             `execute positioned ${pos.x} ${pos.y} ${pos.z} run summon x_ender_chest:${findChest}_top ~ ~ ~ ${chestRot}`);
-        console.log("Spawn command executed");
+
     }
 
     if (target.typeId === `x_ender_chest:${findChest}`) {
@@ -121,7 +121,7 @@ world.afterEvents.playerInteractWithEntity.subscribe((event) => {
         target.dimension.runCommand(`execute positioned ${pos.x} ${pos.y} ${pos.z} run playanimation @e[family=top,r=2,c=1] closed_idle`);
         
         system.runTimeout(() => {
-            console.log(`Playing open animation at ${pos.x},${pos.y},${pos.z}`);
+    
             // Play open animation
             target.dimension.runCommand(`execute positioned ${pos.x} ${pos.y} ${pos.z} run playanimation @e[family=top,r=2,c=1] animation.chest.open`);
         }, 2);
